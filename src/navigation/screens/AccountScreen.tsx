@@ -1,78 +1,72 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, SafeAreaView, StatusBar, ScrollView, Image } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
 import { Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import { Feather } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
-export function AccountScreen() {
+export default function AccountScreen() {
   const navigation = useNavigation();
-  
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#e74c3c" />
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Feather name="arrow-left" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>My Account</Text>
-      </View>
-      
-      <ScrollView style={styles.content}>
-        <View style={styles.profileSection}>
-          <View style={styles.avatarContainer}>
-            <Image
-              source={{ uri: '/placeholder.svg?height=100&width=100' }}
-              style={styles.avatar}
-            />
-          </View>
-          <Text style={styles.name}>Sarah Johnson</Text>
-          <Text style={styles.userType}>Registered User</Text>
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Account</Text>
         </View>
 
-        <View style={styles.infoSection}>
-          <InfoItem icon="mail" label="Email" value="sarah.johnson@example.com" />
-          <InfoItem icon="phone" label="Phone" value="+1 (555) 987-6543" />
-          <InfoItem icon="map-pin" label="Address" value="123 Main St, Anytown, USA" />
-          <InfoItem icon="calendar" label="Date of Birth" value="15 May 1985" />
+        <View style={styles.profileSection}>
+          <Image
+            source={require('../../assets/ambulance.jpg')}
+            style={styles.profileImage}
+          />
+          <View style={styles.profileInfo}>
+            <Text style={styles.profileName}>John Doe</Text>
+            <Text style={styles.profileEmail}>johndoe@example.com</Text>
+          </View>
+          <TouchableOpacity style={styles.editButton}>
+            <Feather name="edit-2" size={20} color="#8B0000" />
+          </TouchableOpacity>
         </View>
 
         <View style={styles.menuSection}>
-          <MenuItem icon="file-text" label="Medical History" onPress={() => navigation.navigate('MedicalHistory')} />
-          <MenuItem icon="clock" label="Emergency Contacts" onPress={() => navigation.navigate('EmergencyContacts')} />
-          <MenuItem icon="credit-card" label="Payment Methods" onPress={() => navigation.navigate('PaymentMethods')} />
-          <MenuItem icon="bell" label="Notifications" onPress={() => navigation.navigate('Notifications')} />
-          <MenuItem icon="settings" label="Account Settings" onPress={() => navigation.navigate('AccountSettings')} />
-          <MenuItem icon="help-circle" label="Help & Support" onPress={() => navigation.navigate('HelpSupport')} />
+          <TouchableOpacity style={styles.menuItem}>
+            <Feather name="user" size={24} color="#666" />
+            <Text style={styles.menuItemText}>Personal Information</Text>
+            <Feather name="chevron-right" size={24} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={styles.menuItem}
+            onPress={() => navigation.navigate('Order')}
+          >
+            <Feather name="file-text" size={24} color="#666" />
+            <Text style={styles.menuItemText}>Order History</Text>
+            <Feather name="chevron-right" size={24} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <Feather name="credit-card" size={24} color="#666" />
+            <Text style={styles.menuItemText}>Payment Methods</Text>
+            <Feather name="chevron-right" size={24} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <Feather name="settings" size={24} color="#666" />
+            <Text style={styles.menuItemText}>Settings</Text>
+            <Feather name="chevron-right" size={24} color="#666" />
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <Feather name="help-circle" size={24} color="#666" />
+            <Text style={styles.menuItemText}>Help & Support</Text>
+            <Feather name="chevron-right" size={24} color="#666" />
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.logoutButton} onPress={() => navigation.navigate('Login')}>
-          <Feather name="log-out" size={20} color="white" />
+        <TouchableOpacity style={styles.logoutButton}>
           <Text style={styles.logoutButtonText}>Log Out</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
-  );
-}
-
-function InfoItem({ icon, label, value }) {
-  return (
-    <View style={styles.infoItem}>
-      <Feather name={icon} size={20} color="#e74c3c" />
-      <View style={styles.infoTextContainer}>
-        <Text style={styles.infoLabel}>{label}</Text>
-        <Text style={styles.infoValue}>{value}</Text>
-      </View>
-    </View>
-  );
-}
-
-function MenuItem({ icon, label, onPress }) {
-  return (
-    <TouchableOpacity style={styles.menuItem} onPress={onPress}>
-      <Feather name={icon} size={20} color="#e74c3c" />
-      <Text style={styles.menuItemText}>{label}</Text>
-      <Feather name="chevron-right" size={20} color="#999" />
-    </TouchableOpacity>
   );
 }
 
@@ -82,103 +76,69 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    backgroundColor: '#e74c3c',
     padding: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#eee',
   },
   headerTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-    marginLeft: 15,
-  },
-  content: {
-    flex: 1,
-  },
-  profileSection: {
-    alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
-  },
-  avatarContainer: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#f8d7da',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: 10,
-    overflow: 'hidden',
-  },
-  avatar: {
-    width: '100%',
-    height: '100%',
-  },
-  name: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#000',
   },
-  userType: {
-    fontSize: 16,
-    color: '#666',
-  },
-  infoSection: {
+  profileSection: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 20,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  infoItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
+  profileImage: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
   },
-  infoTextContainer: {
-    marginLeft: 15,
+  profileInfo: {
+    marginLeft: 20,
     flex: 1,
   },
-  infoLabel: {
+  profileName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000',
+  },
+  profileEmail: {
     fontSize: 14,
     color: '#666',
   },
-  infoValue: {
-    fontSize: 16,
-    color: '#333',
-    fontWeight: '500',
+  editButton: {
+    padding: 10,
   },
   menuSection: {
-    padding: 20,
+    paddingVertical: 10,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    paddingHorizontal: 20,
   },
   menuItemText: {
     flex: 1,
+    marginLeft: 20,
     fontSize: 16,
     color: '#333',
-    marginLeft: 15,
   },
   logoutButton: {
-    backgroundColor: '#e74c3c',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 15,
-    marginHorizontal: 20,
-    marginBottom: 20,
+    margin: 20,
+    backgroundColor: '#8B0000',
     borderRadius: 8,
+    padding: 15,
+    alignItems: 'center',
   },
   logoutButtonText: {
-    color: 'white',
+    color: '#fff',
     fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 10,
+    fontWeight: '600',
   },
 });
 

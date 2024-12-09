@@ -8,20 +8,20 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 import bell from '../assets/bell.png';
 import Icon from 'react-native-vector-icons/Feather'
-import { Home } from './screens/Home';
+import Home from './screens/Home';
 import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
 import { Updates } from './screens/Updates';
 import { NotFound } from './screens/NotFound';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
-import { AccountScreen } from './screens/AccountScreen';
-import AmbulanceScreen from './screens/AmbulanceScreen';
-import DriverScreen from './screens/DriverScreen';
-import StaffScreen from './screens/StaffScreen';
-import InventoryScreen from './screens/InventoryScreen';
-import AmbulanceLocationScreen from './screens/AmbulanceLocation';
-import PatientRegistrationScreen from './screens/PatientRegistrationScreen';
+import AccountScreen from './screens/AccountScreen';
+import RentalOptionsScreen from './screens/RentalOptionScreen';
+import OnlyDriverScreen from './screens/RentalOptions/OnlyDriverScreen';
+import SelfDriveScreen from './screens/RentalOptions/SelfDriveScreen';
+import WithDriverScreen from './screens/RentalOptions/WithDriverScreen';
+import ChooseCarScreen from './screens/ChooseCarScreen';
+import OrderListScreen from './screens/OrderListScreen';
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
@@ -39,19 +39,17 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    Updates: {
-      screen: Updates,
+    Order: {
+      screen: OrderListScreen,
       options: {
         headerShown: false,
+        title: 'Order List',
         tabBarIcon: ({ color, size }) => (
-          <Image
-            source={bell}
-            tintColor={color}
-            style={{
-              width: size,
-              height: size,
-            }}
-          />
+          <Icon
+              name="list"  // Use a Feather icon
+              size={size}   // Adjust size according to the tab size
+              color={color} // Apply the tint color
+            />
         ),
       },
     },
@@ -119,11 +117,7 @@ const RootStack = createNativeStackNavigator({
       screen: RegisterScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
@@ -131,83 +125,55 @@ const RootStack = createNativeStackNavigator({
       screen: LoginScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
-    Ambulance: {
-      screen: AmbulanceScreen,
+    RentalOptions: {
+      screen: RentalOptionsScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
-    Driver: {
-      screen: DriverScreen,
+    OnlyDriver: {
+      screen: OnlyDriverScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
-    Staff: {
-      screen: StaffScreen,
+    SelfDrive: {
+      screen: SelfDriveScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
-    PatientRegistration: {
-      screen: PatientRegistrationScreen,
+    WithDriver: {
+      screen: WithDriverScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
-    Inventory: {
-      screen: InventoryScreen,
+    ChooseCar: {
+      screen: ChooseCarScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
-    AmbulanceLocation: {
-      screen: AmbulanceLocationScreen,
+    OrderList: {
+      screen: OrderListScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerRight: () => (
-          <HeaderButton onPress={navigation.goBack}>
-            <Text></Text>
-          </HeaderButton>
-        ),
+        headerShown: false,
       }),
     },
 
