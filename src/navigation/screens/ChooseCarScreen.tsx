@@ -13,35 +13,37 @@ import { Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-const cars = [
-  {
-    id: '1',
-    name: 'Innova',
-    status: 'Available',
-    image: require('../../../assets/innovA.png'),
-  },
-  {
-    id: '2',
-    name: 'Calya',
-    status: 'No available',
-    image: require('../../../assets/calyaZ.png'),
-  },
-  {
-    id: '3',
-    name: 'Sienta',
-    status: 'Available',
-    image: require('../../../assets/sienta.png'),
-  },
-];
-
 export default function ChooseCarScreen() {
+
+  const navigation = useNavigation();
+  const cars = [
+    {
+      id: '1',
+      name: 'Innova',
+      status: 'Available',
+      image: require('../../../assets/innovA.png'),
+      navigation:{navigation}
+    },
+    {
+      id: '2',
+      name: 'Calya',
+      status: 'No available',
+      image: require('../../../assets/calyaZ.png'),
+    },
+    {
+      id: '3',
+      name: 'Sienta',
+      status: 'Available',
+      image: require('../../../assets/sienta.png'),
+      navigation:{navigation}
+    },
+  ];
 
   React.useEffect(() => {
     StatusBar.setBarStyle('light-content');
     StatusBar.setBackgroundColor('#820300');
   }, []);
   
-  const navigation = useNavigation();
   const [selectedCar, setSelectedCar] = React.useState(0);
   const flatListRef = React.useRef(null);
 
@@ -76,7 +78,7 @@ export default function ChooseCarScreen() {
           <Image source={item.image} style={styles.carImage} resizeMode="contain" />
           <TouchableOpacity 
             style={[styles.selectButton, !isAvailable && styles.disabledSelectButton]} 
-            disabled={!isAvailable} // Disable the button when not available
+            disabled={!isAvailable} onPress={() => navigation.navigate('SummaryReservation')} // Disable the button when not available
           >
             <Text style={[styles.selectButtonText, !isAvailable && styles.disabledButtonText]}>
               Select

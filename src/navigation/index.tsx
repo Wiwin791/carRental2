@@ -10,17 +10,15 @@ import Icon from 'react-native-vector-icons/Feather'
 import Home from './screens/Home';
 import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
-import { Updates } from './screens/Updates';
 import { NotFound } from './screens/NotFound';
 import RegisterScreen from './screens/RegisterScreen';
 import LoginScreen from './screens/LoginScreen';
 import AccountScreen from './screens/AccountScreen';
 import RentalOptionsScreen from './screens/RentalOptionScreen';
-import OnlyDriverScreen from './screens/RentalOptions/OnlyDriverScreen';
-import SelfDriveScreen from './screens/RentalOptions/SelfDriveScreen';
-import WithDriverScreen from './screens/RentalOptions/WithDriverScreen';
-import ChooseCarScreen from './screens/ChooseCarScreen';
 import OrderListScreen from './screens/OrderListScreen';
+import DataPelengkapForm from './screens/DataPelengkapScreen';
+import ChooseCarScreen from './screens/ChooseCarScreen';
+import SummaryReservationScreen from './screens/SummaryReservation';
 
 StatusBar.setBarStyle('dark-content'); // Untuk status bar dengan teks gelap
 StatusBar.setHidden(false);
@@ -144,24 +142,8 @@ const RootStack = createNativeStackNavigator({
       }),
     },
 
-    OnlyDriver: {
-      screen: OnlyDriverScreen,
-      options: ({ navigation }) => ({
-        presentation: 'modal',
-        headerShown: false,
-      }),
-    },
-
-    SelfDrive: {
-      screen: SelfDriveScreen,
-      options: ({ navigation }) => ({
-        presentation: 'modal',
-        headerShown: false,
-      }),
-    },
-
-    WithDriver: {
-      screen: WithDriverScreen,
+    DataPelengkap: {
+      screen: DataPelengkapForm,
       options: ({ navigation }) => ({
         presentation: 'modal',
         headerShown: false,
@@ -176,8 +158,8 @@ const RootStack = createNativeStackNavigator({
       }),
     },
 
-    OrderList: {
-      screen: OrderListScreen,
+    SummaryReservation: {
+      screen: SummaryReservationScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
         headerShown: false,

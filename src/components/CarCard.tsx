@@ -1,14 +1,20 @@
 import React from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 
 interface CarCardProps {
   name: string;
   available: boolean;
   imageUrl: string;
-  onSelect: () => void;
+  navigation: any;
 }
 
-const CarCard: React.FC<CarCardProps> = ({ name, available, imageUrl, onSelect }) => {
+const CarCard: React.FC<CarCardProps> = ({ name, available, imageUrl, navigation }) => {
+
+  const handleSelect = () => {
+    navigation.navigate('SummaryReservation');
+  };
+  
   return (
     <View style={styles.card}>
       <View style={styles.topRightCircle} />
@@ -17,7 +23,7 @@ const CarCard: React.FC<CarCardProps> = ({ name, available, imageUrl, onSelect }
         {available ? 'Available' : 'Unavailable'}
       </Text>
       <Image source={{ uri: imageUrl }} style={styles.carImage} />
-      <TouchableOpacity style={styles.selectButton} onPress={onSelect}>
+      <TouchableOpacity style={styles.selectButton} onPress={handleSelect}>
         <Text style={styles.selectButtonText}>select</Text>
       </TouchableOpacity>
     </View>

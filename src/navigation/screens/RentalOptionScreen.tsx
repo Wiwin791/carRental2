@@ -1,165 +1,381 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   StyleSheet,
   View,
   Text,
   TouchableOpacity,
-  SafeAreaView,
-  Image,
-  StatusBar,
-} from 'react-native';
-import { Feather } from '@expo/vector-icons';
+  TextInput,
+  ScrollView,
+  Platform,
+} from "react-native";
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
-type RentalOptionProps = {
-  title: string;
-  description: string;
-  image: any;
-  onPress: () => void;
-};
+export default function RentalForm() {
+  const navigation = useNavigation();
+  const [rentalType, setRentalType] = useState("");
+  const [showRentalDropdown, setShowRentalDropdown] = useState(false);
+  const [agenda, setAgenda] = useState("");
+  const [purpose, setPurpose] = useState("");
+  const [showPurposeDropdown, setShowPurposeDropdown] = useState(false);
+  const [passengers, setPassengers] = useState(1);
+  const [departure, setDeparture] = useState("");
+  const [showDepartureDropdown, setShowDepartureDropdown] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [showReturnDatePicker, setShowReturnDatePicker] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [selectedReturnDate, setSelectedReturnDate] = useState(new Date());
 
-const RentalOption = ({ title, description, image, onPress }: RentalOptionProps) => (
-  <TouchableOpacity style={styles.optionCard} onPress={onPress}>
-    <View style={styles.optionContent}>
-      <View style={styles.optionInfo}>
-        <Image source={image} style={styles.optionImage} />
-        <View style={styles.optionText}>
-          <Text style={styles.optionTitle}>{title}</Text>
-          <Text style={styles.optionDescription}>{description}</Text>
-        </View>
-      </View>
-      <Feather name="chevron-right" size={24} color="#DC2626" />
-    </View>
-  </TouchableOpacity>
-);
+  const rentalTypes = ["Driver", "Vehicle", "Driver + Vehicle"];
+  const purposes = [
+    "Working Day",
+    "Non Working Day / More Than One Day",
+    "Guest",
+    "Personal",
+    "Pool",
+  ];
+  const departures = [
+    "Head Office",
+    "Sunter 1",
+    "Sunter 2",
+    "Karawang 3",
+    "Karawang 1 & 2",
+  ];
 
-export default function RentalOptionsScreen() {
-    const navigation = useNavigation();
+  const handleDateChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShowDatePicker(Platform.OS === "ios" ? true : false); // On iOS, keep the picker visible after selection
+    setSelectedDate(currentDate);
+  };
+
+  const handleReturnDateChange = (event, selectedReturnDate) => {
+    const currentReturnDate = selectedReturnDate || date;
+    setShowReturnDatePicker(Platform.OS === "ios" ? true : false); // On iOS, keep the picker visible after selection
+    setSelectedReturnDate(currentReturnDate);
+  };
+
+  const formattedRentalDate = selectedDate.toLocaleString("en-GB", {
+    weekday: "long", 
+    day: "2-digit", 
+    month: "long", 
+    year: "numeric", 
+  });
+
+  const formattedReturnDate = selectedReturnDate.toLocaleString("en-GB", {
+    weekday: "long", 
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      
-      {/* Header */}
+    <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons name="arrow-back" size={24} color="white" />
+        </TouchableOpacity >
+        <Text style={styles.headerTitle}>Rent</Text>
+      </View>
+
+      <View style={styles.form}>
+        <Text style={styles.label}>
+          Rental Type <Text style={styles.required}>*</Text>
+        </Text>
+        <TouchableOpacity
+          style={styles.dropdown}
+          onPress={() => setShowRentalDropdown(!showRentalDropdown)}
         >
-          <Feather name="arrow-left" size={24} color="#000" />
+          <Text style={styles.dropdownText}>
+            {rentalType || "Select Rental Type"}
+          </Text>
+          <Ionicons
+            name={showRentalDropdown ? "chevron-up" : "chevron-down"}
+            size={24}
+            color="#666"
+          />
         </TouchableOpacity>
-        <View style={styles.headerTextContainer}>
-          <Text style={styles.headerTitle}>Car Rental</Text>
-          <Text style={styles.headerSubtitle}>What type of car rental do you need?</Text>
+
+        {showRentalDropdown && (
+          <View style={styles.dropdownList}>
+            {rentalTypes.map((type) => (
+              <TouchableOpacity
+                key={type}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setRentalType(type);
+                  setShowRentalDropdown(false);
+                }}
+              >
+                <Text style={styles.dropdownItemText}>{type}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        <Text style={styles.label}>
+          Agenda <Text style={styles.required}>*</Text>
+        </Text>
+        <TextInput
+          style={styles.input}
+          placeholder="enter your agenda"
+          value={agenda}
+          onChangeText={setAgenda}
+        />
+
+        {/* purposes */}
+
+        <Text style={styles.label}>
+          Purposes <Text style={styles.required}>*</Text>
+        </Text>
+        <TouchableOpacity
+          style={styles.dropdown}
+          onPress={() => setShowPurposeDropdown(!showPurposeDropdown)}
+        >
+          <Text style={styles.dropdownText}>
+            {purpose || "Select Purposes"}
+          </Text>
+          <Ionicons
+            name={showPurposeDropdown ? "chevron-up" : "chevron-down"}
+            size={24}
+            color="#666"
+          />
+        </TouchableOpacity>
+
+        {showPurposeDropdown && (
+          <View style={styles.dropdownList}>
+            {purposes.map((type) => (
+              <TouchableOpacity
+                key={type}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setPurpose(type);
+                  setShowPurposeDropdown(false);
+                }}
+              >
+                <Text style={styles.dropdownItemText}>{type}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        <View style={styles.passengerCounter}>
+          <Text style={styles.label}>
+            Total Passenger <Text style={styles.required}>*</Text>
+          </Text>
+          <View style={styles.counter}>
+            <TouchableOpacity
+              style={styles.counterButton}
+              onPress={() => setPassengers(Math.max(1, passengers - 1))}
+            >
+              <Text style={styles.counterButtonText}>-</Text>
+            </TouchableOpacity>
+            <Text style={styles.counterText}>{passengers}</Text>
+            <TouchableOpacity
+              style={styles.counterButton}
+              onPress={() => setPassengers(passengers + 1)}
+            >
+              <Text style={styles.counterButtonText}>+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+
+        {/* departure */}
+
+        <Text style={styles.label}>
+          Departure <Text style={styles.required}>*</Text>
+        </Text>
+        <TouchableOpacity
+          style={styles.dropdown}
+          onPress={() => setShowDepartureDropdown(!showDepartureDropdown)}
+        >
+          <Text style={styles.dropdownText}>
+            {departure || "Select Departure"}
+          </Text>
+          <Ionicons
+            name={showDepartureDropdown ? "chevron-up" : "chevron-down"}
+            size={24}
+            color="#666"
+          />
+        </TouchableOpacity>
+
+        {showDepartureDropdown && (
+          <View style={styles.dropdownList}>
+            {departures.map((type) => (
+              <TouchableOpacity
+                key={type}
+                style={styles.dropdownItem}
+                onPress={() => {
+                  setDeparture(type);
+                  setShowDepartureDropdown(false);
+                }}
+              >
+                <Text style={styles.dropdownItemText}>{type}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        )}
+
+        {/* Date Picker */}
+        <Text style={styles.label}>
+          Rental Date <Text style={styles.required}>*</Text>
+        </Text>
+        <TouchableOpacity
+          style={styles.dropdown}
+          onPress={() => setShowDatePicker(true)}
+        >
+          <Text style={styles.dropdownText}>{formattedRentalDate}</Text>
+          <Ionicons name="calendar" size={24} color="#666" />
+        </TouchableOpacity>
+
+        {showDatePicker && (
+          <DateTimePicker
+            value={selectedDate}
+            mode="date"
+            display="default"
+            onChange={handleDateChange}
+          />
+        )}
+
+        {/* Return Date Picker */}
+        <Text style={styles.label}>
+          Return Date <Text style={styles.required}>*</Text>
+        </Text>
+        <TouchableOpacity
+          style={styles.dropdown}
+          onPress={() => setShowReturnDatePicker(true)}
+        >
+          <Text style={styles.dropdownText}>{formattedReturnDate}</Text>
+          <Ionicons name="calendar" size={24} color="#666" />
+        </TouchableOpacity>
+
+        {showReturnDatePicker && (
+          <DateTimePicker
+            value={selectedReturnDate}
+            mode="date"
+            display="default"
+            onChange={handleReturnDateChange}
+          />
+        )}
+
+        <TouchableOpacity
+          style={styles.nextButton}
+          onPress={() => navigation.navigate('DataPelengkap')}
+        >
+          <Text style={styles.nextButtonText}>Next</Text>
+        </TouchableOpacity>
       </View>
-
-      {/* Options */}
-      <View style={styles.optionsContainer}>
-        <RentalOption
-          title="Self Drive"
-          description="The choice when you need personal space"
-          image={require('../../assets/selfDrive.png')}
-          onPress={() => navigation.navigate('SelfDrive')}
-        />
-
-        <RentalOption
-          title="With Driver"
-          description="Choice for convenience"
-          image={require('../../assets/withDrive.png')}
-          onPress={() => navigation.navigate('WithDriver')}
-        />
-
-        <RentalOption
-          title="Only Drivers"
-          description="Option when the vehicle already exists"
-          image={require('../../assets/onlyDrivers.png')}
-          onPress={() => navigation.navigate('OnlyDriver')}
-        />
-      </View>
-    </SafeAreaView>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: "#fff",
   },
   header: {
-    padding: 20,
-    paddingTop: 10,
-    backgroundColor: '#fff',
-    justifyContent: 'center', // Center the content vertically
-    alignItems: 'center',
-  },
-  backButton: {
-    width: 40,
-    height: 40,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'absolute', // Position the back button at the top left
-    left: 20,
-    top: 20,
-  },
-  headerTextContainer: {
-    alignItems: 'center',
-    marginTop: 10
+    backgroundColor: "#8B0000",
+    padding: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingTop: Platform.OS === "ios" ? 50 : 16,
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#000',
-    marginBottom: 4,
-    textAlign: 'center',
+    color: "white",
+    fontSize: 20,
+    marginLeft: 16,
+    fontWeight: "500",
   },
-  headerSubtitle: {
-    fontSize: 14,
-    color: '#666',
+  form: {
+    padding: 16,
   },
-  optionsContainer: {
-    padding: 20,
+  label: {
+    fontSize: 16,
+    marginBottom: 8,
+    color: "#333",
   },
-  optionCard: {
-    backgroundColor: '#FFF5F5',
-    borderRadius: 12,
+  required: {
+    color: "red",
+  },
+  dropdown: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    padding: 12,
     marginBottom: 16,
-    padding: 20,
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
   },
-  optionContent: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+  dropdownText: {
+    fontSize: 16,
+    color: "#333",
   },
-  optionInfo: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  dropdownList: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    marginTop: -14,
+    marginBottom: 16,
+    backgroundColor: "white",
+  },
+  dropdownItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ddd",
+  },
+  dropdownItemText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 16,
+    marginBottom: 16,
+  },
+  passengerCounter: {
+    marginBottom: 16,
+  },
+  counter: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ddd",
+    borderRadius: 8,
+    padding: 8,
+  },
+  counterButton: {
+    width: 36,
+    height: 36,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#f5f5f5",
+    borderRadius: 18,
+  },
+  counterButtonText: {
+    fontSize: 20,
+    color: "#333",
+  },
+  counterText: {
     flex: 1,
+    textAlign: "center",
+    fontSize: 16,
+    color: "#333",
   },
-  optionImage: {
-    width: 80,
-    height: 60,
-    marginRight: 15,
+  nextButton: {
+    backgroundColor: "#8B0000",
+    borderRadius: 8,
+    padding: 16,
+    alignItems: "center",
+    marginTop: 16,
   },
-  optionText: {
-    flex: 1,
-  },
-  optionTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#000',
-    marginBottom: 4,
-  },
-  optionDescription: {
-    fontSize: 14,
-    color: '#666',
+  nextButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
-
