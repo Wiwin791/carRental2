@@ -6,7 +6,8 @@ import {
   TouchableOpacity, 
   Image, 
   Dimensions,
-  ScrollView,
+  FlatList,
+  StatusBar
 } from 'react-native';
 import { Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
@@ -17,19 +18,74 @@ const cars = [
     id: '1',
     name: 'Innova',
     status: 'Available',
-    image: require('../../assets/innova.png'),
+    image: require('../../../assets/innovA.png'),
   },
   {
     id: '2',
-    name: 'Camry',
+    name: 'Calya',
+    status: 'No available',
+    image: require('../../../assets/calyaZ.png'),
+  },
+  {
+    id: '3',
+    name: 'Sienta',
     status: 'Available',
-    image: require('../../assets/innova.png'),
+    image: require('../../../assets/sienta.png'),
   },
 ];
 
 export default function ChooseCarScreen() {
-    const navigation = useNavigation();
+
+  React.useEffect(() => {
+    StatusBar.setBarStyle('light-content');
+    StatusBar.setBackgroundColor('#820300');
+  }, []);
+  
+  const navigation = useNavigation();
   const [selectedCar, setSelectedCar] = React.useState(0);
+  const flatListRef = React.useRef(null);
+
+  const handlePrev = () => {
+    if (selectedCar > 0) {
+      const newIndex = selectedCar - 1;
+      setSelectedCar(newIndex);
+      flatListRef.current.scrollToIndex({ index: newIndex });
+    }
+  };
+
+  const handleNext = () => {
+    if (selectedCar < cars.length - 1) {
+      const newIndex = selectedCar + 1;
+      setSelectedCar(newIndex);
+      flatListRef.current.scrollToIndex({ index: newIndex });
+    }
+  };
+
+  const renderItem = ({ item, index }) => {
+    const isAvailable = item.status === 'Available';
+
+    return (
+      <View style={[styles.carSlide, !isAvailable && styles.disabledCar]}>
+        <View style={[styles.carCard, !isAvailable && styles.disabledCard]}>
+          <View style={styles.decorativeCircle1} />
+          <View style={styles.decorativeCircle2} />
+          <View style={styles.carInfo}>
+            <Text style={styles.carName}>{item.name}</Text>
+            <Text style={styles.carStatus}>{item.status}</Text>
+          </View>
+          <Image source={item.image} style={styles.carImage} resizeMode="contain" />
+          <TouchableOpacity 
+            style={[styles.selectButton, !isAvailable && styles.disabledSelectButton]} 
+            disabled={!isAvailable} // Disable the button when not available
+          >
+            <Text style={[styles.selectButtonText, !isAvailable && styles.disabledButtonText]}>
+              Select
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -40,53 +96,42 @@ export default function ChooseCarScreen() {
         >
           <Feather name="arrow-left" size={24} color="#000" />
         </TouchableOpacity>
-        <View>
+        <View style={styles.headerTextContainer}>
           <Text style={styles.headerTitle}>Choose your car</Text>
           <Text style={styles.headerSubtitle}>Kindly select the car you would prefer to utilize</Text>
         </View>
       </View>
 
-      <ScrollView 
+      <FlatList 
+        ref={flatListRef} 
+        data={cars}
         horizontal 
-        pagingEnabled 
+        pagingEnabled
         showsHorizontalScrollIndicator={false}
+        keyExtractor={(item) => item.id}
+        renderItem={renderItem}
         onScroll={(event) => {
           const slide = Math.round(
             event.nativeEvent.contentOffset.x / Dimensions.get('window').width
           );
           setSelectedCar(slide);
         }}
-        scrollEventThrottle={16}
-      >
-        {cars.map((car, index) => (
-          <View key={car.id} style={styles.carSlide}>
-            <View style={styles.carInfo}>
-              <Text style={styles.carName}>{car.name}</Text>
-              <Text style={styles.carStatus}>{car.status}</Text>
-            </View>
-            <Image source={car.image} style={styles.carImage} resizeMode="contain" />
-          </View>
-        ))}
-      </ScrollView>
+      />
 
       <View style={styles.navigation}>
         <TouchableOpacity 
           style={[styles.navButton, selectedCar === 0 && styles.navButtonDisabled]}
           disabled={selectedCar === 0}
-          onPress={() => {
-            // Handle previous car
-          }}
+          onPress={handlePrev} // Handle left button press
         >
-          <Feather name="chevron-left" size={24} color={selectedCar === 0 ? '#ccc' : '#fff'} />
+          <Feather name="arrow-left" size={24} color={selectedCar === 0 ? '#ccc' : '#fff'} />
         </TouchableOpacity>
         <TouchableOpacity 
           style={[styles.navButton, selectedCar === cars.length - 1 && styles.navButtonDisabled]}
           disabled={selectedCar === cars.length - 1}
-          onPress={() => {
-            // Handle next car
-          }}
+          onPress={handleNext} // Handle right button press
         >
-          <Feather name="chevron-right" size={24} color={selectedCar === cars.length - 1 ? '#ccc' : '#fff'} />
+          <Feather name="arrow-right" size={24} color={selectedCar === cars.length - 1 ? '#ccc' : '#fff'} />
         </TouchableOpacity>
       </View>
 
@@ -94,12 +139,9 @@ export default function ChooseCarScreen() {
         <View style={styles.warning}>
           <Feather name="info" size={20} color="#DC2626" />
           <Text style={styles.warningText}>
-            The selection of cars is based solely on the model, and the former plate number is determined by the system. The car selection can be changed at any time by the pool admin.
+            The selection of cars is based solely on the model, and the license plate number is determined by the system. The car selection can be changed at any time by the pool admin.
           </Text>
         </View>
-        <TouchableOpacity style={styles.selectButton}>
-          <Text style={styles.selectButtonText}>select</Text>
-        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -119,27 +161,75 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 10,
+  },
+  headerTextContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
   headerTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     color: '#000',
     marginBottom: 4,
+    textAlign: 'center',
+    marginTop: -47
   },
   headerSubtitle: {
     fontSize: 14,
     color: '#666',
+    textAlign: 'center',
+    marginBottom: -20
   },
   carSlide: {
     width: Dimensions.get('window').width,
     padding: 20,
     alignItems: 'center',
   },
+  disabledCar: {
+    opacity: 1,
+  },
+  carCard: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    padding: 20,
+    alignItems: 'center',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+    overflow: 'hidden',
+  },
+  disabledCard: {
+    backgroundColor: '#f5f5f5', // Make the card look disabled
+  },
+  decorativeCircle1: {
+    position: 'absolute',
+    top: -50,
+    left: -50,
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: '#FFF1F2',
+  },
+  decorativeCircle2: {
+    position: 'absolute',
+    top: -30,
+    right: -30,
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#FFF1F2',
+  },
   carInfo: {
     alignItems: 'center',
     marginBottom: 20,
+    zIndex: 1,
   },
   carName: {
     fontSize: 24,
@@ -149,57 +239,65 @@ const styles = StyleSheet.create({
   },
   carStatus: {
     fontSize: 14,
-    color: '#666',
+    color: '#DC2626',
   },
   carImage: {
     width: '100%',
     height: 200,
-  },
-  navigation: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    marginTop: 20,
-  },
-  navButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: '#8B0000',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  navButtonDisabled: {
-    backgroundColor: '#f5f5f5',
-  },
-  footer: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: '#eee',
-  },
-  warning: {
-    flexDirection: 'row',
-    backgroundColor: '#FEE2E2',
-    padding: 15,
-    borderRadius: 8,
     marginBottom: 20,
   },
-  warningText: {
-    flex: 1,
-    marginLeft: 10,
-    fontSize: 12,
-    color: '#DC2626',
-  },
   selectButton: {
+    width: '100%',
     backgroundColor: '#8B0000',
     borderRadius: 8,
     padding: 15,
     alignItems: 'center',
+  },
+  disabledSelectButton: {
+    backgroundColor: '#ccc', 
   },
   selectButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
   },
+  disabledButtonText: {
+    color: '#888', 
+  },
+  navigation: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  navButton: {
+    width: 46,
+    height: 46,
+    borderRadius: 23,
+    backgroundColor: '#8B0000',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 35
+  },
+  navButtonDisabled: {
+    backgroundColor: '#f5f5f5',
+  },
+  footer: {
+    padding: 20,
+    marginBottom: 30
+  },
+  warning: {
+    flexDirection: 'row',
+    backgroundColor: '#FFF1F2',
+    padding: 15,
+    borderRadius: 8,
+  },
+  warningText: {
+    flex: 1,
+    marginLeft: 10,
+    fontSize: 12,
+    color: '#DC2626',
+    lineHeight: 16.37,
+  },
 });
-

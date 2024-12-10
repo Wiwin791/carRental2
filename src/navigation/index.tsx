@@ -5,8 +5,7 @@ import {
   StaticParamList,
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image } from 'react-native';
-import bell from '../assets/bell.png';
+import { StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Feather'
 import Home from './screens/Home';
 import { Profile } from './screens/Profile';
@@ -23,6 +22,9 @@ import WithDriverScreen from './screens/RentalOptions/WithDriverScreen';
 import ChooseCarScreen from './screens/ChooseCarScreen';
 import OrderListScreen from './screens/OrderListScreen';
 
+StatusBar.setBarStyle('dark-content'); // Untuk status bar dengan teks gelap
+StatusBar.setHidden(false);
+
 const HomeTabs = createBottomTabNavigator({
   screens: {
     Home: {
@@ -30,6 +32,10 @@ const HomeTabs = createBottomTabNavigator({
       options: {
         title: 'Home',
         headerShown: false,
+        headerStyle: {
+          backgroundColor: 'transparent',
+        },
+        statusBarStyle: 'dark',
         tabBarIcon: ({ color, size }) => (
           <Icon
               name="home"  // Use a Feather icon
@@ -39,6 +45,7 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
+    
     Order: {
       screen: OrderListScreen,
       options: {

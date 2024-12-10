@@ -3,6 +3,7 @@ import { StyleSheet, View, SafeAreaView, TouchableOpacity, FlatList } from 'reac
 import { Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { StatusBar } from 'react-native';
 
 const orderData = [
   { id: '1', car: 'Innova', date: '2024-09-15', status: 'Completed' },
