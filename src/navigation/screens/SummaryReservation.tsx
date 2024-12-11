@@ -8,11 +8,16 @@ import {
   Modal,
   Image,
   Platform,
+  StatusBar
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons';
 
+StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
+StatusBar.setHidden(false);
 export default function SummaryReservationScreen() {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const navigation = useNavigation();
 
   const rentalDetails = {
     projectName: "Support Project Cipunagaraa",
@@ -35,7 +40,7 @@ export default function SummaryReservationScreen() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Rental Details</Text>
@@ -124,7 +129,7 @@ export default function SummaryReservationScreen() {
         <View style={styles.buttonContainer}>
           <TouchableOpacity 
             style={[styles.button, styles.cancelButton]}
-            onPress={() => console.log('Cancel pressed')}
+            onPress={() => navigation.goBack()}
           >
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </TouchableOpacity>
@@ -145,10 +150,10 @@ export default function SummaryReservationScreen() {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <View style={styles.warningIcon}>
-              <Ionicons name="warning" size={48} color="#FFA000" />
+              <Ionicons name="alert-circle" size={48} color="#FFA000" />
             </View>
             <Text style={styles.modalText}>
-              Request anda kami lanjutkan, anda akan dihubungi pihak pool lewat nomor telefon anda adalah nomor Whatsapp
+            Request anda kami lanjutkan, anda akan diinformasikan lebih lanjut oleh admin pool. Pastikan nomor telfon anda adalah nomor Whatsapp
             </Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity 
@@ -160,8 +165,7 @@ export default function SummaryReservationScreen() {
               <TouchableOpacity 
                 style={[styles.modalButton, styles.yesButton]}
                 onPress={() => {
-                  setShowConfirmModal(false);
-                  // Handle confirmation
+                  navigation.navigate('DetailHistory');
                 }}
               >
                 <Text style={styles.yesButtonText}>Yes</Text>

@@ -19,9 +19,11 @@ import OrderListScreen from './screens/OrderListScreen';
 import DataPelengkapForm from './screens/DataPelengkapScreen';
 import ChooseCarScreen from './screens/ChooseCarScreen';
 import SummaryReservationScreen from './screens/SummaryReservation';
+import DetailHistoryScreen from './screens/DetailHistory';
+import { TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-StatusBar.setBarStyle('dark-content'); // Untuk status bar dengan teks gelap
-StatusBar.setHidden(false);
+StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
@@ -29,11 +31,12 @@ const HomeTabs = createBottomTabNavigator({
       screen: Home,
       options: {
         title: 'Home',
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
           backgroundColor: 'transparent',
+          height: 32,
         },
-        statusBarStyle: 'dark',
+        statusBarStyle: 'light-content',
         tabBarIcon: ({ color, size }) => (
           <Icon
               name="home"  // Use a Feather icon
@@ -47,7 +50,11 @@ const HomeTabs = createBottomTabNavigator({
     Order: {
       screen: OrderListScreen,
       options: {
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: 'transparent',
+          height: 32,
+        },
         title: 'Order List',
         tabBarIcon: ({ color, size }) => (
           <Icon
@@ -63,7 +70,11 @@ const HomeTabs = createBottomTabNavigator({
       screen: AccountScreen,
       options: {
         title: 'Account',
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: 'transparent',
+          height: 32,
+        },
         tabBarIcon: ({ color, size }) => (
           <Icon
               name="user"  // Use a Feather icon
@@ -138,7 +149,24 @@ const RootStack = createNativeStackNavigator({
       screen: RentalOptionsScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: ' Rent',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
       }),
     },
 
@@ -160,6 +188,14 @@ const RootStack = createNativeStackNavigator({
 
     SummaryReservation: {
       screen: SummaryReservationScreen,
+      options: ({ navigation }) => ({
+        presentation: 'modal',
+        headerShown: false,
+      }),
+    },
+
+    DetailHistory: {
+      screen: DetailHistoryScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
         headerShown: false,

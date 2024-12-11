@@ -5,6 +5,8 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'react-native';
 
+StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
+StatusBar.setHidden(false);
 const orderData = [
   { id: '1', car: 'Innova', date: '2024-09-15', status: 'Completed' },
   { id: '2', car: 'Camry', date: '2024-09-10', status: 'Ongoing' },

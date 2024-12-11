@@ -3,6 +3,7 @@ import { Asset } from 'expo-asset';
 import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import { Navigation } from './navigation';
+import { SafeAreaView } from 'react-native';
 
 Asset.loadAsync([
   ...NavigationAssets,
@@ -10,10 +11,10 @@ Asset.loadAsync([
   require('./assets/bell.png'),
 ]);
 
-SplashScreen.preventAutoHideAsync();
 
 export function App() {
   return (
+    <SafeAreaView style={{ flex: 1 }}>
     <Navigation
       linking={{
         enabled: 'auto',
@@ -26,5 +27,6 @@ export function App() {
         SplashScreen.hideAsync();
       }}
     />
+    </SafeAreaView>
   );
 }

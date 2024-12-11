@@ -7,6 +7,8 @@ import {
   TextInput,
   ScrollView,
   Platform,
+  Modal,
+  FlatList
 } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from "@expo/vector-icons";
@@ -26,6 +28,9 @@ export default function RentalForm() {
   const [showReturnDatePicker, setShowReturnDatePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [selectedReturnDate, setSelectedReturnDate] = useState(new Date());
+  const [showDestinationModal, setShowDestinationModal] = useState(false);
+  const [selectedDestination, setSelectedDestination] = useState('');
+  const [destination, setDestination] = useState("");
 
   const rentalTypes = ["Driver", "Vehicle", "Driver + Vehicle"];
   const purposes = [
@@ -42,6 +47,25 @@ export default function RentalForm() {
     "Karawang 3",
     "Karawang 1 & 2",
   ];
+
+  const destinations = [
+    { id: '1', name: 'New York' },
+    { id: '2', name: 'Los Angeles' },
+    { id: '3', name: 'Chicago' },
+    { id: '4', name: 'Houston' },
+    { id: '5', name: 'Phoenix' },
+  ];
+  const renderDestinationItem = ({ item }) => (
+    <TouchableOpacity
+      style={styles.destinationItem}
+      onPress={() => {
+        setSelectedDestination(item.name);
+        setShowDestinationModal(false);
+      }}
+    >
+      <Text style={styles.destinationItemText}>{item.name}</Text>
+    </TouchableOpacity>
+  );
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -71,23 +95,23 @@ export default function RentalForm() {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity >
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>Rent</Text>
-      </View>
-
+      </View> */}
+  
       <View style={styles.form}>
         <Text style={styles.label}>
-          Rental Type <Text style={styles.required}>*</Text>
+          Rental <Text style={styles.required}>*</Text>
         </Text>
         <TouchableOpacity
           style={styles.dropdown}
           onPress={() => setShowRentalDropdown(!showRentalDropdown)}
         >
           <Text style={styles.dropdownText}>
-            {rentalType || "Select Rental Type"}
+            {rentalType || "Rental Type"}
           </Text>
           <Ionicons
             name={showRentalDropdown ? "chevron-up" : "chevron-down"}
@@ -95,7 +119,7 @@ export default function RentalForm() {
             color="#666"
           />
         </TouchableOpacity>
-
+  
         {showRentalDropdown && (
           <View style={styles.dropdownList}>
             {rentalTypes.map((type) => (
@@ -112,7 +136,7 @@ export default function RentalForm() {
             ))}
           </View>
         )}
-
+  
         <Text style={styles.label}>
           Agenda <Text style={styles.required}>*</Text>
         </Text>
@@ -122,9 +146,8 @@ export default function RentalForm() {
           value={agenda}
           onChangeText={setAgenda}
         />
-
+  
         {/* purposes */}
-
         <Text style={styles.label}>
           Purposes <Text style={styles.required}>*</Text>
         </Text>
@@ -141,7 +164,7 @@ export default function RentalForm() {
             color="#666"
           />
         </TouchableOpacity>
-
+  
         {showPurposeDropdown && (
           <View style={styles.dropdownList}>
             {purposes.map((type) => (
@@ -158,7 +181,7 @@ export default function RentalForm() {
             ))}
           </View>
         )}
-
+  
         <View style={styles.passengerCounter}>
           <Text style={styles.label}>
             Total Passenger <Text style={styles.required}>*</Text>
@@ -179,9 +202,8 @@ export default function RentalForm() {
             </TouchableOpacity>
           </View>
         </View>
-
+  
         {/* departure */}
-
         <Text style={styles.label}>
           Departure <Text style={styles.required}>*</Text>
         </Text>
@@ -198,7 +220,7 @@ export default function RentalForm() {
             color="#666"
           />
         </TouchableOpacity>
-
+  
         {showDepartureDropdown && (
           <View style={styles.dropdownList}>
             {departures.map((type) => (
@@ -215,7 +237,45 @@ export default function RentalForm() {
             ))}
           </View>
         )}
+  
+        {/* Destination List */}
+        <Text style={styles.label}>
+          Destination List
+        </Text>
+        <TouchableOpacity
+          style={styles.destinationButton}
+          // onPress={() => navigation.navigate('DestinationList')}
+        >
+          <Ionicons name="location-outline" size={24} color="#FF9800"/>
+          <Text style={styles.destinationText}>
+            {destination || "Location"}
+          </Text>
+        </TouchableOpacity>
 
+        <Modal
+          visible={showDestinationModal}
+          animationType="slide"
+          transparent={true}
+          onRequestClose={() => setShowDestinationModal(false)}
+        >
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalTitle}>Select Destination</Text>
+              <FlatList
+                data={destinations}
+                renderItem={renderDestinationItem}
+                keyExtractor={(item) => item.id}
+              />
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setShowDestinationModal(false)}
+              >
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
+  
         {/* Date Picker */}
         <Text style={styles.label}>
           Rental Date <Text style={styles.required}>*</Text>
@@ -227,7 +287,7 @@ export default function RentalForm() {
           <Text style={styles.dropdownText}>{formattedRentalDate}</Text>
           <Ionicons name="calendar" size={24} color="#666" />
         </TouchableOpacity>
-
+  
         {showDatePicker && (
           <DateTimePicker
             value={selectedDate}
@@ -236,7 +296,7 @@ export default function RentalForm() {
             onChange={handleDateChange}
           />
         )}
-
+  
         {/* Return Date Picker */}
         <Text style={styles.label}>
           Return Date <Text style={styles.required}>*</Text>
@@ -248,7 +308,7 @@ export default function RentalForm() {
           <Text style={styles.dropdownText}>{formattedReturnDate}</Text>
           <Ionicons name="calendar" size={24} color="#666" />
         </TouchableOpacity>
-
+  
         {showReturnDatePicker && (
           <DateTimePicker
             value={selectedReturnDate}
@@ -257,7 +317,7 @@ export default function RentalForm() {
             onChange={handleReturnDateChange}
           />
         )}
-
+  
         <TouchableOpacity
           style={styles.nextButton}
           onPress={() => navigation.navigate('DataPelengkap')}
@@ -377,5 +437,58 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  destinationButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#FFF3E0",
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  destinationText: {
+    marginLeft: 8,
+    fontSize: 16,
+    color: "#FF9800",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 16,
+    width: '80%',
+    maxHeight: '80%',
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: '500',
+    marginBottom: 16,
+    textAlign: 'center',
+  },
+  destinationItem: {
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+  },
+  destinationItemText: {
+    fontSize: 16,
+    color: '#333',
+  },
+  closeButton: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#8B0000',
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  closeButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '500',
   },
 });

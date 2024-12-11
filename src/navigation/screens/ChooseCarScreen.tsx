@@ -13,6 +13,8 @@ import { Text } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
+StatusBar.setHidden(false);
 export default function ChooseCarScreen() {
 
   const navigation = useNavigation();

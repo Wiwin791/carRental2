@@ -7,10 +7,13 @@ import {
   TouchableOpacity,
   Image,
   SafeAreaView,
+  Dimensions,
 } from "react-native";
 import { MaterialCommunityIcons, Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { StatusBar } from "react-native";
+
+const { width } = Dimensions.get('window');
 
 export default function Home() {
   const navigation = useNavigation();
@@ -65,7 +68,8 @@ export default function Home() {
           <TouchableOpacity style={styles.serviceItem}>
             <View style={styles.serviceIconContainer}>
               <Image
-                source={require("../../assets/image/pollCarService.png")}
+                source={require("../../assets/image/pollCarReservee.png")}
+                style={{ width: 61, height: '100%' }}
               />
             </View>
             <Text style={styles.serviceText}>Pool Car{"\n"}Reserve</Text>
@@ -73,7 +77,9 @@ export default function Home() {
 
           <TouchableOpacity style={styles.serviceItem}>
             <View style={styles.serviceIconContainer}>
-              <Image source={require("../../assets/image/Commuterz.png")} />
+              <Image source={require("../../assets/image/commuternn.png")}
+              style={{ width: '100%', height: 53 }} />
+
             </View>
             <Text style={styles.serviceText}>Commuter</Text>
           </TouchableOpacity>
@@ -84,7 +90,8 @@ export default function Home() {
           >
             <View style={styles.serviceIconContainer}>
               <Image
-                source={require("../../assets/image/carRental&Driving.png")}
+                source={require("../../assets/image/carRental&Drivingg.png")}
+                style={{ width: 67, height: '100%' }}
               />
             </View>
             <Text style={styles.serviceText}>Car Rental{"\n"}& Driver</Text>
@@ -92,21 +99,26 @@ export default function Home() {
 
           <TouchableOpacity style={styles.serviceItem}>
             <View style={styles.serviceIconContainer}>
-              <Image source={require("../../assets/image/Approval.png")} />
+              <Image source={require("../../assets/image/approvall.png")}
+              style={{ width: 28, height: '100%' }}
+               />
             </View>
             <Text style={styles.serviceText}>Approval</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.serviceItem}>
             <View style={styles.serviceIconContainer}>
-              <Image source={require("../../assets/image/PassApproval.png")} />
+              <Image source={require("../../assets/image/passApprovall.png")}
+              style={{ width: 48, height: '100%' }}
+               />
             </View>
             <Text style={styles.serviceText}>Pass Approval</Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={styles.serviceItem}>
             <View style={styles.serviceIconContainer}>
-              <Image source={require("../../assets/image/checkUnit.png")} />
+              <Image source={require("../../assets/image/checkUnitt.png")}
+              style={{ width: 64, height: '100%' }} />
             </View>
             <Text style={styles.serviceText}>Check Units</Text>
           </TouchableOpacity>
@@ -122,47 +134,53 @@ export default function Home() {
         {/* Reservation Steps */}
         <View style={styles.stepsContainer}>
           <Text style={styles.stepsTitle}>Reservation Information</Text>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <TouchableOpacity style={styles.stepCard}>
+              <View style={styles.stepIconContainer}>
+                <Image 
+                  source={require("../../assets/image/calender.png")}
+                  style={styles.stepIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={styles.stepTextContainer}>
+                <Text style={styles.stepTitle}>Set your schedule</Text>
+                <Text style={styles.stepDescription}>
+                  Select and set the date of your trip
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.stepCard}>
-            <View style={styles.stepIconContainer}>
-              <MaterialCommunityIcons
-                name="calendar"
-                size={24}
-                color="#820300"
-              />
-            </View>
-            <View style={styles.stepTextContainer}>
-              <Text style={styles.stepTitle}>Set your schedule</Text>
-              <Text style={styles.stepDescription}>
-                Select and set the date of your trip
-              </Text>
-            </View>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.stepCard}>
+              <View style={styles.stepIconContainer}>
+                <Image 
+                  source={require("../../assets/image/chooseYourCar.png")}
+                  style={styles.stepIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={styles.stepTextContainer}>
+                <Text style={styles.stepTitle}>Choose your Car</Text>
+                <Text style={styles.stepDescription}>Ease of choosing a car</Text>
+              </View>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.stepCard}>
-            <View style={styles.stepIconContainer}>
-              <MaterialCommunityIcons name="car" size={24} color="#820300" />
-            </View>
-            <View style={styles.stepTextContainer}>
-              <Text style={styles.stepTitle}>Choose your Car</Text>
-              <Text style={styles.stepDescription}>Ease of choosing a car</Text>
-            </View>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.stepCard}>
-            <View style={styles.stepIconContainer}>
-              <MaterialCommunityIcons name="routes" size={24} color="#820300" />
-            </View>
-            <View style={styles.stepTextContainer}>
-              <Text style={styles.stepTitle}>Set Your Route</Text>
-              <Text style={styles.stepDescription}>
-                Choose the travel route and your destination
-              </Text>
-            </View>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.stepCard}>
+              <View style={styles.stepIconContainer}>
+                <Image 
+                  source={require("../../assets/image/setYourRoute.png")}
+                  style={styles.stepIcon}
+                  resizeMode="contain"
+                />
+              </View>
+              <View style={styles.stepTextContainer}>
+                <Text style={styles.stepTitle}>Set Your Route</Text>
+                <Text style={styles.stepDescription}>
+                  Choose the travel route and your destination
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </ScrollView>
 
           <TouchableOpacity style={styles.helpCenter}>
             <View style={styles.helpCenterContent}>
@@ -229,10 +247,10 @@ const styles = StyleSheet.create({
     height: 75
   },
   statsCard: {
-    flexDirection: "row", // Membuat layout horizontal
-    alignItems: "center", // Menyelaraskan item secara vertikal agar rata tengah
+    flexDirection: "row", 
+    alignItems: "center", 
     flex: 1,
-    justifyContent: "center", // Membuat konten berada di tengah secara horizontal
+    justifyContent: "center", 
     paddingVertical: 10,
     position: "relative",
   },
@@ -290,6 +308,7 @@ const styles = StyleSheet.create({
   },
   stepsContainer: {
     padding: 15,
+    backgroundColor: '#fff'
   },
   stepsTitle: {
     fontSize: 18,
@@ -298,51 +317,55 @@ const styles = StyleSheet.create({
     color: "#333",
   },
   stepCard: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 20,
+    marginRight: 15,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 15,
+    width: width * 0.4,
+    height: 170,
+    justifyContent: 'center',
   },
   stepIconContainer: {
-    width: 40,
-    height: 40,
-    backgroundColor: "#FEE2E2",
-    borderRadius: 20,
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 15,
+    width: 80,
+    height: 80,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 5,
+  },
+  stepIcon: {
+    width: '100%',
+    height: '100%',
   },
   stepTextContainer: {
-    flex: 1,
+    alignItems: 'center',
+    textAlign: 'center',
   },
   stepTitle: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#333",
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 8,
+    textAlign: 'center',
   },
   stepDescription: {
-    fontSize: 12,
-    color: "#666",
+    fontSize: 13,
+    color: '#666',
+    textAlign: 'center',
+    paddingHorizontal: 5,
   },
   helpCenter: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
     padding: 15,
-    borderRadius: 10,
-    marginTop: 10,
-    elevation: 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    marginTop: 15,
+    borderWidth: 1,
+    borderColor: '#eee',
+    borderRadius: 10
   },
   helpCenterContent: {
     flex: 1,
@@ -361,24 +384,5 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#666",
   },
-  bottomNav: {
-    flexDirection: "row",
-    borderTopWidth: 1,
-    borderTopColor: "#eee",
-    paddingVertical: 10,
-    backgroundColor: "#fff",
-  },
-  bottomNavItem: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  bottomNavText: {
-    fontSize: 12,
-    color: "#666",
-    marginTop: 4,
-  },
-  bottomNavActive: {
-    color: "#820300",
-  },
 });
+

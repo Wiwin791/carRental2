@@ -1,9 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { Text } from 'react-native';
+import { Text, StatusBar } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
+StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
+StatusBar.setHidden(false);
 export default function AccountScreen() {
   const navigation = useNavigation();
   return (
