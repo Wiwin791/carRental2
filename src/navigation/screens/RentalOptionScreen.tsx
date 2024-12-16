@@ -22,6 +22,7 @@ export default function RentalForm() {
   const [purpose, setPurpose] = useState("");
   const [showPurposeDropdown, setShowPurposeDropdown] = useState(false);
   const [passengers, setPassengers] = useState(1);
+  const MAX_PASSENGERS = 8;
   const [departure, setDeparture] = useState("");
   const [showDepartureDropdown, setShowDepartureDropdown] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -196,7 +197,7 @@ export default function RentalForm() {
             <Text style={styles.counterText}>{passengers}</Text>
             <TouchableOpacity
               style={styles.counterButton}
-              onPress={() => setPassengers(passengers + 1)}
+              onPress={() => setPassengers(Math.min(8, passengers + 1))}
             >
               <Text style={styles.counterButtonText}>+</Text>
             </TouchableOpacity>
@@ -244,7 +245,7 @@ export default function RentalForm() {
         </Text>
         <TouchableOpacity
           style={styles.destinationButton}
-          // onPress={() => navigation.navigate('DestinationList')}
+          onPress={() => setShowDestinationModal(true)}
         >
           <Ionicons name="location-outline" size={24} color="#FF9800"/>
           <Text style={styles.destinationText}>

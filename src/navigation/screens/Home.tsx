@@ -135,7 +135,7 @@ export default function Home() {
         <View style={styles.stepsContainer}>
           <Text style={styles.stepsTitle}>Reservation Information</Text>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            <TouchableOpacity style={styles.stepCard}>
+            <View style={styles.stepCard}>
               <View style={styles.stepIconContainer}>
                 <Image 
                   source={require("../../assets/image/calender.png")}
@@ -149,9 +149,9 @@ export default function Home() {
                   Select and set the date of your trip
                 </Text>
               </View>
-            </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity style={styles.stepCard}>
+            <View style={styles.stepCard}>
               <View style={styles.stepIconContainer}>
                 <Image 
                   source={require("../../assets/image/chooseYourCar.png")}
@@ -163,9 +163,9 @@ export default function Home() {
                 <Text style={styles.stepTitle}>Choose your Car</Text>
                 <Text style={styles.stepDescription}>Ease of choosing a car</Text>
               </View>
-            </TouchableOpacity>
+            </View>
 
-            <TouchableOpacity style={styles.stepCard}>
+            <View style={styles.stepCard}>
               <View style={styles.stepIconContainer}>
                 <Image 
                   source={require("../../assets/image/setYourRoute.png")}
@@ -179,7 +179,7 @@ export default function Home() {
                   Choose the travel route and your destination
                 </Text>
               </View>
-            </TouchableOpacity>
+            </View>
           </ScrollView>
 
           <TouchableOpacity style={styles.helpCenter}>

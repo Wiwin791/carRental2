@@ -36,12 +36,6 @@ export default function DetailHistoryScreen() {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Reservation Process</Text>
-      </View>
 
       <View style={styles.content}>
         <View style={styles.reservationCard}>

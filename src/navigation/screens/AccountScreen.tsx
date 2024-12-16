@@ -1,72 +1,88 @@
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Image, ScrollView } from 'react-native';
-import { Text, StatusBar } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { StyleSheet, View, Text, Image, TouchableOpacity, ScrollView, SafeAreaView, Platform, StatusBar } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 
-StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
-StatusBar.setHidden(false);
 export default function AccountScreen() {
   const navigation = useNavigation();
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Account</Text>
-        </View>
+      {/* Header */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Profile</Text>
+        <TouchableOpacity>
+          <Ionicons name="notifications-outline" size={24} color="white" />
+        </TouchableOpacity>
+      </View>
 
+      <ScrollView style={styles.content}>
+        {/* Profile Info */}
         <View style={styles.profileSection}>
           <Image
-            source={require('../../assets/ambulance.jpg')}
+            source={require("../../assets/image/chooseYourCar.png")}
             style={styles.profileImage}
           />
-          <View style={styles.profileInfo}>
-            <Text style={styles.profileName}>John Doe</Text>
-            <Text style={styles.profileEmail}>johndoe@example.com</Text>
+          <Text style={styles.name}>Adnan Mahfuzhon</Text>
+          <Text style={styles.id}>02335050</Text>
+        </View>
+
+        {/* Profile Details */}
+        <View style={styles.detailsContainer}>
+          {/* Driving License Button */}
+          <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('DrivingLicense')}>
+            <View style={styles.menuItemLeft}>
+              <Ionicons name="card-outline" size={20} color="#666" />
+              <Text style={styles.menuItemText}>Driving License</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={20} color="#666" />
+          </TouchableOpacity>
+
+          {/* Form Fields */}
+          <View style={styles.formSection}>
+            <Text style={styles.label}>Email</Text>
+            <Text style={styles.value}>Adnanmahfuzhon@gmail.com</Text>
+
+            <Text style={styles.label}>Role</Text>
+            <Text style={styles.value}>Driver</Text>
+
+            <Text style={styles.label}>Perusahaan</Text>
+            <View style={styles.editableField}>
+              <Text style={styles.value}>PSM</Text>
+              <TouchableOpacity>
+                <Ionicons name="create-outline" size={20} color="#666" />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.label}>Divisi</Text>
+            <View style={styles.editableField}>
+              <Text style={styles.value}>ISTD</Text>
+              <TouchableOpacity>
+                <Ionicons name="create-outline" size={20} color="#666" />
+              </TouchableOpacity>
+            </View>
+
+            <Text style={styles.label}>No telepon</Text>
+            <Text style={styles.value}>088291110522</Text>
+
+            <Text style={styles.label}>Section</Text>
+            <Text style={styles.value}>-</Text>
+
+            <Text style={styles.label}>Line</Text>
+            <Text style={styles.value}>-</Text>
+
+            <Text style={styles.label}>Group</Text>
+            <Text style={styles.value}>-</Text>
+
+            <Text style={styles.label}>Location</Text>
+            <Text style={styles.value}>Karawang 1</Text>
           </View>
-          <TouchableOpacity style={styles.editButton}>
-            <Feather name="edit-2" size={20} color="#8B0000" />
+
+          {/* Logout Button */}
+          <TouchableOpacity style={styles.logoutButton}>
+            <Ionicons name="log-out-outline" size={20} color="#DC2626" />
+            <Text style={styles.logoutText}>Keluar</Text>
           </TouchableOpacity>
         </View>
-
-        <View style={styles.menuSection}>
-          <TouchableOpacity style={styles.menuItem}>
-            <Feather name="user" size={24} color="#666" />
-            <Text style={styles.menuItemText}>Personal Information</Text>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
-
-          <TouchableOpacity 
-            style={styles.menuItem}
-            onPress={() => navigation.navigate('Order')}
-          >
-            <Feather name="file-text" size={24} color="#666" />
-            <Text style={styles.menuItemText}>Order History</Text>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.menuItem}>
-            <Feather name="credit-card" size={24} color="#666" />
-            <Text style={styles.menuItemText}>Payment Methods</Text>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.menuItem}>
-            <Feather name="settings" size={24} color="#666" />
-            <Text style={styles.menuItemText}>Settings</Text>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.menuItem}>
-            <Feather name="help-circle" size={24} color="#666" />
-            <Text style={styles.menuItemText}>Help & Support</Text>
-            <Feather name="chevron-right" size={24} color="#666" />
-          </TouchableOpacity>
-        </View>
-
-        <TouchableOpacity style={styles.logoutButton}>
-          <Text style={styles.logoutButtonText}>Log Out</Text>
-        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );
@@ -76,71 +92,97 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
   },
   header: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    backgroundColor: '#820300'
+    ,
+    padding: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
+    color: 'white',
+    fontSize: 20,
     fontWeight: 'bold',
-    color: '#000',
+  },
+  content: {
+    flex: 1,
   },
   profileSection: {
-    flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    paddingVertical: 24,
   },
   profileImage: {
     width: 80,
     height: 80,
     borderRadius: 40,
+    marginBottom: 12,
   },
-  profileInfo: {
-    marginLeft: 20,
-    flex: 1,
-  },
-  profileName: {
+  name: {
     fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000',
+    fontWeight: '600',
+    marginBottom: 4,
   },
-  profileEmail: {
+  id: {
     fontSize: 14,
     color: '#666',
   },
-  editButton: {
-    padding: 10,
-  },
-  menuSection: {
-    paddingVertical: 10,
+  detailsContainer: {
+    padding: 16,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-  },
-  menuItemText: {
-    flex: 1,
-    marginLeft: 20,
-    fontSize: 16,
-    color: '#333',
-  },
-  logoutButton: {
-    margin: 20,
-    backgroundColor: '#8B0000',
+    justifyContent: 'space-between',
+    backgroundColor: '#f4f4f5',
+    padding: 12,
     borderRadius: 8,
-    padding: 15,
+    marginBottom: 24,
+  },
+  menuItemLeft: {
+    flexDirection: 'row',
     alignItems: 'center',
   },
-  logoutButtonText: {
-    color: '#fff',
+  menuItemText: {
+    marginLeft: 12,
+    color: '#666',
+  },
+  formSection: {
+    gap: 12,
+  },
+  label: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 8,
+  },
+  value: {
     fontSize: 16,
-    fontWeight: '600',
+    paddingVertical: 4,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e5e5',
+  },
+  editableField: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#e5e5e5',
+  },
+  logoutButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FEE2E2',
+    padding: 12,
+    borderRadius: 8,
+    marginTop: 32,
+  },
+  logoutText: {
+    color: '#DC2626',
+    marginLeft: 8,
+    fontWeight: '500',
   },
 });
 

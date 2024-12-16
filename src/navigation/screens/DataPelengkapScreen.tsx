@@ -33,12 +33,6 @@ export default function DataPelengkapForm() {
 
   return (
     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={24} color="white" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>Data pelengkap</Text>
-      </View>
 
       <View style={styles.form}>
         <Text style={styles.label}>

@@ -6,7 +6,6 @@ import {
 } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { StatusBar } from 'react-native';
-import Icon from 'react-native-vector-icons/Feather'
 import Home from './screens/Home';
 import { Profile } from './screens/Profile';
 import { Settings } from './screens/Settings';
@@ -22,6 +21,10 @@ import SummaryReservationScreen from './screens/SummaryReservation';
 import DetailHistoryScreen from './screens/DetailHistory';
 import { TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import AddDrivingLicenseScreen from './screens/drivingLicense/AddDrivingLicense';
+import DrivingLicenseScreen from './screens/drivingLicense/drivingLicenseScreen';
+import AddSIMScreen from './screens/drivingLicense/addSimScreen';
+import SIMScreen from './screens/drivingLicense/simSCreen';
 
 StatusBar.setBarStyle('light-content'); // Untuk status bar dengan teks gelap
 
@@ -38,7 +41,7 @@ const HomeTabs = createBottomTabNavigator({
         },
         statusBarStyle: 'light-content',
         tabBarIcon: ({ color, size }) => (
-          <Icon
+          <Ionicons
               name="home"  // Use a Feather icon
               size={size}   // Adjust size according to the tab size
               color={color} // Apply the tint color
@@ -57,7 +60,7 @@ const HomeTabs = createBottomTabNavigator({
         },
         title: 'Order List',
         tabBarIcon: ({ color, size }) => (
-          <Icon
+          <Ionicons
               name="list"  // Use a Feather icon
               size={size}   // Adjust size according to the tab size
               color={color} // Apply the tint color
@@ -69,15 +72,15 @@ const HomeTabs = createBottomTabNavigator({
     Account: {
       screen: AccountScreen,
       options: {
-        title: 'Account',
-        headerShown: true,
+        title: 'Profile',
+        headerShown: false,
         headerStyle: {
           backgroundColor: 'transparent',
           height: 32,
         },
         tabBarIcon: ({ color, size }) => (
-          <Icon
-              name="user"  // Use a Feather icon
+          <Ionicons
+              name="person-outline"  // Use a Feather icon
               size={size}   // Adjust size according to the tab size
               color={color} // Apply the tint color
             />
@@ -174,7 +177,24 @@ const RootStack = createNativeStackNavigator({
       screen: DataPelengkapForm,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: ' Data Pelengkap',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
       }),
     },
 
@@ -190,12 +210,128 @@ const RootStack = createNativeStackNavigator({
       screen: SummaryReservationScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
-        headerShown: false,
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: ' Rental Details',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
       }),
     },
 
     DetailHistory: {
       screen: DetailHistoryScreen,
+      options: ({ navigation }) => ({
+        presentation: 'modal',
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: ' Reservation Process',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
+      }),
+    },
+
+    DrivingLicense: {
+      screen: DrivingLicenseScreen,
+      options: ({ navigation }) => ({
+        presentation: 'modal',
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: 'Driving License',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
+      }),
+    },
+
+    AddDrivingLicense: {
+      screen: AddDrivingLicenseScreen,
+      options: ({ navigation }) => ({
+        presentation: 'modal',
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: 'Add Driving License',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
+      }),
+    },
+
+    AddSIM: {
+      screen: AddSIMScreen,
+      options: ({ navigation }) => ({
+        presentation: 'modal',
+        headerShown: true,
+        headerStyle: {
+          backgroundColor: '#820300',
+        },
+        headerTitleStyle: {
+          color: 'white', // Warna teks judul
+          fontWeight: 'bold', // Teks judul menjadi bold
+        },
+        title: 'Tambahkan SIM',
+        // headerLeft: () => (
+        //   <TouchableOpacity onPress={() => navigation.goBack()}>
+        //     <Ionicons 
+        //       name="arrow-back" 
+        //       size={24} 
+        //       color="white" 
+        //     />
+        //   </TouchableOpacity>
+        // ),
+      }),
+    },
+    simList: {
+      screen: SIMScreen,
       options: ({ navigation }) => ({
         presentation: 'modal',
         headerShown: false,
